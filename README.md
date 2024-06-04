@@ -1,0 +1,1 @@
+run `npm run dev` or `npm run build && node src/index.js`
