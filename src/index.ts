@@ -93,9 +93,9 @@ async function decryptFromFileStreamDoesNotWork_solution() {
   
     await createFileFromReadStream(decryptReadStream, 'test/output.sample.decrypted');
   
-    console.log(`decryptFromFileStreamDoesNotWork() finished successfully`);
+    console.log(`decryptFromFileStreamDoesNotWork_solution() finished successfully`);
   } catch (error) {
-    console.log(`decryptFromFileStreamDoesNotWork() failed`);
+    console.log(`decryptFromFileStreamDoesNotWork_solution() failed`);
     console.error(error);
   }
   
