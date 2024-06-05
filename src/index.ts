@@ -77,6 +77,30 @@ async function decryptFromFileStreamDoesNotWork() {
   
 }
 
+async function decryptFromFileStreamDoesNotWork_solution() {
+  try {
+    const options: GenerateKeyOptions & { format?: 'armored' } = { userIDs: {} };
+    const { privateKey, publicKey } = await openpgp.generateKey(options);
+  
+    const readStream = fs.createReadStream('test/sample.txt');
+    const encryptedReadStream = await encryptStream(readStream, publicKey);
+  
+    await createFileFromReadStream(encryptedReadStream, 'test/output.sample.encrypted');
+  
+    // SOLUTION: set encoding utf8
+    const readStream2 = fs.createReadStream('test/output.sample.encrypted', 'utf8');
+    const decryptReadStream = await decryptStream(readStream2, privateKey);
+  
+    await createFileFromReadStream(decryptReadStream, 'test/output.sample.decrypted');
+  
+    console.log(`decryptFromFileStreamDoesNotWork() finished successfully`);
+  } catch (error) {
+    console.log(`decryptFromFileStreamDoesNotWork() failed`);
+    console.error(error);
+  }
+  
+}
+
 async function decryptFromOwnOpenPgpStreamWorks() {
   try {
     const options: GenerateKeyOptions & { format?: 'armored' } = { userIDs: {} };
@@ -96,6 +120,7 @@ async function decryptFromOwnOpenPgpStreamWorks() {
 
 async function main() {
   await decryptFromOwnOpenPgpStreamWorks();
+  await decryptFromFileStreamDoesNotWork_solution();
   await decryptFromFileStreamDoesNotWork();
 }
 
